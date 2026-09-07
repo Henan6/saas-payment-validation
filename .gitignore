@@ -1,0 +1,57 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.env
+.envrc
+
+# Credentials, keys, tokens
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa
+id_dsa
+*.ppk
+*_rsa
+*_ed25519
+credentials
+credentials.*
+secrets.*
+*secret*.json
+*credentials*.json
+service-account*.json
+gha-creds-*.json
+.npmrc
+.pypirc
+.netrc
+
+# Dependencies / build output
+node_modules/
+dist/
+build/
+out/
+coverage/
+.cache/
+.next/
+.nuxt/
+.turbo/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
