@@ -1,12 +1,32 @@
 # SaaS Payment Validation
 
-A reusable validation framework and AI-agent skill for testing payment-capable
-SaaS systems across deterministic tests, real integration environments, provider
-sandboxes, and real-time release validation.
+A decision procedure I'm developing — with a companion AI-agent skill — for
+choosing how to validate payment-capable SaaS changes across deterministic tests,
+real integration environments, provider sandboxes, and real-time release
+validation.
 
 It gives engineers and coding agents a shared, explicit vocabulary for one hard
 question: **what is the minimum sufficient evidence that a payment change is
 correct — and when is a real-time release run actually required?**
+
+## What it produces
+
+The skill turns a payment change into a fixed set of decision fields. Example input:
+*a webhook handler now maps a `subscription.past_due` event with `collection_paused
+= true` to a new internal state instead of `GRACE`; no RC is being promoted.*
+
+    Payment surface   Provider event → internal lifecycle-state interpretation changed
+    L1                REQUIRED — new state and its transitions
+    L2                NOT REQUIRED — no persistence / concurrency / ordering change
+    L3                REQUIRED — NOT RUN / EVIDENCE MISSING (provider payload semantics changed)
+    L4                NOT REQUIRED — Step A: no RC, no hard exception
+    RC promotion      NO (explicitly established)
+    Evidence subst.   NOT RELEVANT (decision stopped at Step A)
+    Verdict           none issued — required L3 evidence is missing
+    Next actions      add L1 coverage for the new state; run the L3 sandbox validation
+
+`L3 = REQUIRED` comes from what changed; `NOT RUN / EVIDENCE MISSING` is a separate
+fact about what has executed — the skill never collapses them into `L3 = UNKNOWN`.
 
 ---
 
@@ -58,10 +78,10 @@ L4 run).
 
 ---
 
-## Distinctions the framework holds
+## Distinctions it keeps separate
 
 Most payment-validation mistakes are one of these two things being collapsed into
-one. The framework keeps them apart:
+one. The procedure keeps them apart:
 
 | This | is not | that |
 |---|---|---|
@@ -113,19 +133,19 @@ pressure.
 
 ## Validation status
 
-- **42 behavioral stress tests** were run against the skill during development.
-- The **final integrated test, Test 42 = PASS**.
-- The current skill revision is **`CLOSED / PASS`** — the accepted baseline for
-  this revision.
-- This is **internal engineering validation**, not an external audit or
-  certification.
-
-See [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md) for the full record and
-[`docs/TEST_MATRIX.md`](docs/TEST_MATRIX.md) for the behavioral coverage summary.
+The rules were developed by iterating against 42 hand-constructed scenarios —
+payment-validation situations each written to probe a specific distinction the
+rules need to hold. Those scenarios and the behavior they exercise are summarized
+in [`docs/TEST_MATRIX.md`](docs/TEST_MATRIX.md). There is no automated test
+harness in this repository, and the skill has not yet been run against a real
+payment codebase.
 
 This project explicitly does **not** claim to be: production certified, security
 certified, formally verified, guaranteed safe, or a production-ready application.
-It is a validation framework and a decision aid.
+It is a decision procedure and a set of reference documents.
+
+See [`docs/DEVELOPMENT_RECORD.md`](docs/DEVELOPMENT_RECORD.md) for what that
+development process did and did not establish.
 
 ---
 
@@ -138,17 +158,18 @@ It is a validation framework and a decision aid.
 ├── CONTRIBUTING.md               # how to propose changes to behavioral rules
 ├── SECURITY.md                   # what not to submit; how to report issues
 │
-├── skill/                        # the AI-agent skill (accepted, CLOSED / PASS)
-│   ├── SKILL.md                  # decision procedure and output contract
-│   └── references/
+├── skill/                        # the AI-agent skill: decision procedure + references
+│   ├── SKILL.md                  # routing and output contract (loads every time)
+│   └── references/               # detail, loaded on demand
 │       ├── validation-ladder.md  # L1–L3 routing and evidence-substitution states
 │       ├── evidence-model.md     # RC gate, hard exceptions, Step A/B/C, substitution
-│       └── freeze-protocol.md    # L4 entry, integrity checks, contamination, restart
+│       ├── freeze-protocol.md    # L4 entry, integrity checks, contamination, restart
+│       └── reporting-rules.md    # detailed state and reporting rules
 │
 ├── docs/
 │   ├── VALIDATION_MODEL.md       # the model as an engineering design document
-│   ├── TEST_MATRIX.md            # behavioral coverage summary (42 tests)
-│   └── ACCEPTANCE.md             # public acceptance record
+│   ├── TEST_MATRIX.md            # scenario coverage summary (42 scenarios)
+│   └── DEVELOPMENT_RECORD.md     # what the development process established
 │
 └── examples/
     ├── provider-boundary-change.md   # provider payload semantics changed → L3 REQUIRED
@@ -237,8 +258,7 @@ If any of that overlaps with what you're working on, please open an Issue or a
 Discussion on this repository, or reach out through my GitHub profile
 ([@Henan6](https://github.com/Henan6)).
 
-Contributions to the framework are welcome — see
-[`CONTRIBUTING.md`](CONTRIBUTING.md).
+Contributions are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 

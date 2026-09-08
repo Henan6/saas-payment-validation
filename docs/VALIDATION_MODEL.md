@@ -1,6 +1,6 @@
 # Validation Model
 
-An engineering design document for the payment-validation framework. It explains
+An engineering design document for the payment-validation decision procedure. It explains
 what the model is trying to protect, how the pieces fit together, and why each
 distinction is drawn where it is. The normative rules live in
 [`../skill/SKILL.md`](../skill/SKILL.md) and

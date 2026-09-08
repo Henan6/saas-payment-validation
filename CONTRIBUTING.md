@@ -36,7 +36,7 @@ propose a change to any of them:
 ## Regression review
 
 The current skill revision is accepted as `CLOSED / PASS` for that revision only
-(see [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md)). Any behavioral change requires a
+(see [`docs/DEVELOPMENT_RECORD.md`](docs/DEVELOPMENT_RECORD.md)). Any behavioral change requires a
 targeted regression review of the affected rules and their interactions across
 the four skill files before it can be accepted.
 

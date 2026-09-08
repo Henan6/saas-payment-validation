@@ -1,44 +1,48 @@
-# Acceptance Record
+# Development Record
 
 ## Status
 
-**`CLOSED / PASS`**
+Internal engineering development record for the current skill revision. Not an
+acceptance sign-off, not an external certification, and not a statement that the
+skill has been run against a real payment codebase.
 
 ## Scope
 
 The `saas-payment-validation` skill — [`../skill/SKILL.md`](../skill/SKILL.md)
-and [`../skill/references/`](../skill/references/) — was behaviorally validated
-through **Tests 1–42**. This record freezes that validated state as the accepted
-baseline for the **current skill revision**. It is an internal engineering
-acceptance record only.
+and [`../skill/references/`](../skill/references/) — was developed by iterating
+against **42 hand-constructed scenarios** (Tests 1–42), each written to probe a
+specific distinction the rules need to hold. This record describes what that
+process covered for the **current skill revision**; the scenarios are summarized
+in [`TEST_MATRIX.md`](TEST_MATRIX.md).
 
-## Final integrated validation
+## What the scenarios exercised
 
-| Component behavior | Result |
-|---|---|
-| Test 42 (final integrated) | **PASS** |
-| Stale / current L3 evidence handling | PASS |
-| Partial historical L4 coverage handling | PASS |
-| Subset vs complete zero-blast-radius handling | PASS |
-| Evidence substitution fail-closed behavior | PASS |
-| Scenario scoping | PASS |
-| Freeze / contamination / restart separation | PASS |
-| Anti-inference discipline | PASS |
-| Release-authorization separation | PASS |
+Iterating the 42 scenarios exercised and settled the following behaviors; each is
+now enforced by a rule in `skill/` (see [`TEST_MATRIX.md`](TEST_MATRIX.md) for the
+category-by-category breakdown):
 
-## Pre-acceptance consistency audit
+- stale / current L3 evidence handling
+- partial historical L4 coverage handling
+- subset vs complete zero-blast-radius handling
+- evidence substitution fail-closed behavior
+- scenario scoping
+- freeze / contamination / restart separation
+- anti-inference discipline
+- release-authorization separation
 
-A final consistency audit was performed across the four skill files:
+## Cross-file consistency
+
+A consistency review was performed across the skill files:
 
 - `SKILL.md`
 - `references/validation-ladder.md`
 - `references/evidence-model.md`
 - `references/freeze-protocol.md`
+- `references/reporting-rules.md`
 
-**Result: PASS — no contradiction, regression, unsupported inference rule, or
-cross-file conflict found.**
-
-The four files consistently preserve every checked boundary, including:
+At the time of review, no contradiction, regression, unsupported inference rule,
+or cross-file conflict was found. The files consistently preserve every checked
+boundary, including:
 
 - L1–L4 responsibility boundaries;
 - application-owned timing vs provider-owned real-time classification;
@@ -191,15 +195,14 @@ existing rules; it introduces none.
     "deploy now" unless release authorization is explicitly in scope and every
     authoritative release gate is established.
 
-## Acceptance boundary
+## Boundary
 
-- No Test 43 is required for current acceptance.
-- Future tests should be added only when a real project introduces a new
-  payment-validation pattern, a new provider behavior, an architecture change, or
-  a discovered regression.
-- `CLOSED / PASS` applies to the **current skill revision only**.
-- Any future skill edit requires a **targeted regression review** before this
-  acceptance record may be relied upon for the edited state.
+- The 42 scenarios are not a fixed suite. More should be added only when a real
+  project introduces a new payment-validation pattern, a new provider behavior,
+  an architecture change, or a discovered regression.
+- This record describes the **current skill revision only**.
+- Any future skill edit should be re-checked against the affected scenarios
+  before this record is relied on for the edited state.
 
 ## Files covered
 
@@ -207,18 +210,21 @@ existing rules; it introduces none.
 - `skill/references/validation-ladder.md`
 - `skill/references/evidence-model.md`
 - `skill/references/freeze-protocol.md`
+- `skill/references/reporting-rules.md`
 
-## Basis of validation
+## Basis
 
-The skill was validated by running behavioral stress scenarios against a small
+The rules were developed by working the scenarios by hand against a small
 synthetic payment codebase used purely as reading material for the decision
 procedure. No real application source code, provider, credential, or customer
-data was involved. The validated rules were not changed by closure, and no new
-behavioral requirement or test case was added — this record is documentation
-only.
+data was involved. There is no automated test harness in this repository, and the
+skill has not been run against a real payment codebase — this record is
+documentation only.
 
 ## Explicit non-claims
 
 - This is **not** an external certification.
 - This is **not** production release approval.
 - This does **not** assert that any application is production-ready.
+- This does **not** assert that the skill has been exercised on a real payment
+  system.
