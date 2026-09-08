@@ -1,13 +1,17 @@
 # SaaS Payment Validation
 
 A decision procedure I'm developing — with a companion AI-agent skill — for
-choosing how to validate payment-capable SaaS changes across deterministic tests,
-real integration environments, provider sandboxes, and real-time release
-validation.
+one hard question: what is the *minimum sufficient* evidence that a payment
+change is correct?
 
-It gives engineers and coding agents a shared, explicit vocabulary for one hard
-question: **what is the minimum sufficient evidence that a payment change is
-correct — and when is a real-time release run actually required?**
+Payment code invites over-testing. The expensive answer is to spin up a real
+provider sandbox and wait out real elapsed time for anything that looks
+timing-sensitive. Usually that is not necessary, and knowing when it is not
+requires distinctions that are easy to state and easy to collapse under
+pressure — including inside a coding agent.
+
+Concretely: a set of Markdown reference documents plus a skill you can drop into
+a coding agent's skills directory — no code to install.
 
 ## What it produces
 
@@ -44,9 +48,8 @@ around the parts that ordinary tests cannot reach:
 - real-time validation integrity — evidence quietly changing underneath a
   long-running observation.
 
-Most of these are not caught by "add more tests." They are caught by being
-precise about *which kind of evidence* a given change needs, and by refusing to
-let a strong-looking test stand in for evidence it does not actually provide.
+Most of these are not caught by "add more tests" — they are caught by refusing
+to let a strong-looking test stand in for evidence it does not actually provide.
 
 This repository packages that discipline as:
 
