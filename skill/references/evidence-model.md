@@ -639,6 +639,16 @@ occurred. Once contamination has actually occurred, do not fall back to
 - interactions whose correctness depends on multiple real provider-scheduled
   processes racing over elapsed time.
 
+**Provider time-simulation carve-out.** A behavior in the list above is
+real-time-only *only when no available provider time-simulation facility can
+reproduce it*. Some providers offer a sandbox facility that advances test-mode
+time to trigger renewals, trial ends, dunning cadence, and retry schedules. Where
+such a facility exists and covers the behavior under test, that behavior is
+**L3-provable and not real-time-only**. Route to L4 only for provider-owned
+real-elapsed-time behavior that no available simulation facility can reproduce.
+The entries above are unchanged: each remains real-time-only for the case where
+no such facility covers it.
+
 ## NOT real-time-only — the application owns the clock and it can be injected or advanced deterministically
 
 - grace-period expiration computed from an injected `now`;

@@ -348,7 +348,9 @@ proposed fix").
 - scenario outcome = `FAIL` (genuine product/provider-behavior result; valid L4
   evidence of a failure)
 - freeze integrity = `NOT CONTAMINATED`
-- current L4 run status = `ACTIVE / IN PROGRESS` but `BLOCKED`
+- current L4 run status = `ACTIVE / IN PROGRESS` (operationally `BLOCKED` only if
+  continuation of the required validation is established as prevented; otherwise
+  `run continuation status = UNKNOWN / NOT ESTABLISHED`)
 - contamination = `NOT YET OCCURRED`
 - fresh L4 restart = `CONDITIONAL / NOT YET TRIGGERED`
 - contamination-restart hard exception = `NOT ACTIVE`

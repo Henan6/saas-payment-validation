@@ -65,8 +65,8 @@ controllable clock) into real-time-only behavior. At RC time such behavior is
 still proven at L1/L2.
 
 Real elapsed time is required only for behavior the provider owns, where the
-provider's actual schedule is the thing under test (see
-`references/evidence-model.md`).
+provider's actual schedule is the thing under test and no provider
+time-simulation facility can reproduce it (see `references/evidence-model.md`).
 
 ---
 
